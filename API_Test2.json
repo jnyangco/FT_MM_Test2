@@ -1,0 +1,195 @@
+{
+	"info": {
+		"_postman_id": "bab68dfc-b6d5-4071-a250-4bcf49aa9ba4",
+		"name": "FT_MM_Test2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9373087",
+		"_collection_link": "https://www.postman.com/planetary-shuttle-560854/workspace/workspace-ft-mm-test2/collection/9373087-bab68dfc-b6d5-4071-a250-4bcf49aa9ba4?action=share&source=collection_link&creator=9373087"
+	},
+	"item": [
+		{
+			"name": "API_Test2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let response;\r",
+							"let getdata;\r",
+							"let highestInterestPaidAmt = 0;\r",
+							"let highestIndex = 0;\r",
+							"let totalRecords = 0;\r",
+							"\r",
+							"\r",
+							"pm.test(\"Verify status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Verify response body is JSON format', function () {\r",
+							"    pm.response.to.be.json;\r",
+							"    response = pm.response.json();\r",
+							"    getdata = response.data;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test('Verify response attributes is correct', function () {\r",
+							"    for (var i=0, len=getdata.length; i<len; i++) {\r",
+							"        pm.expect(getdata[i]).to.have.property('record_date');\r",
+							"        pm.expect(getdata[i]).to.have.property('fund_id');\r",
+							"        pm.expect(getdata[i]).to.have.property('fund_desc');\r",
+							"        pm.expect(getdata[i]).to.have.property('interest_paid_amt');\r",
+							"        pm.expect(getdata[i]).to.have.property('cost_type_desc');\r",
+							"        pm.expect(getdata[i]['record_date']).to.be.equals(\"2023-06-30\");\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Verify highest interest_paid_amt\", function() {\r",
+							"    for (var i=0, len=getdata.length; i<len; i++) {\r",
+							"    var interestPaidAmt = Number(getdata[i][\"interest_paid_amt\"]);\r",
+							"        if (interestPaidAmt > highestInterestPaidAmt) {\r",
+							"            highestInterestPaidAmt = interestPaidAmt;\r",
+							"            highestIndex = i;\r",
+							"        }\r",
+							"        totalRecords = i+1;\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"console.log(\"=====Highest interest_paid_amt data out of \" +totalRecords +\" records=====\");\r",
+							"console.log(getdata[highestIndex]);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"if(console.clear) {\r",
+							"    console.clear();\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}{{endPoint}}{{filterAttributes}}&filter=record_date:eq:2023-06-30{{limit}}",
+					"host": [
+						"{{baseUrl}}{{endPoint}}{{filterAttributes}}&filter=record_date:eq"
+					],
+					"port": "2023-06-30{{limit}}"
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/",
+			"type": "string"
+		},
+		{
+			"key": "endPoint",
+			"value": "v2/accounting/od/interest_cost_fund"
+		},
+		{
+			"key": "filterAttributes",
+			"value": "?fields=record_date,fund_id,fund_desc,interest_paid_amt,cost_type_desc",
+			"type": "string"
+		},
+		{
+			"key": "limit",
+			"value": "&page[number]=1&page[size]=1000"
+		}
+	]
+}
